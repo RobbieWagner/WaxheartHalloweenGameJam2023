@@ -9,12 +9,12 @@ namespace RobbieWagnerGames
         protected Dictionary<EState, BaseState<EState>> States = new Dictionary<EState, BaseState<EState>>();
         protected BaseState<EState> CurrentState;
 
-        void Initialize()
+        public virtual void Initialize()
         {
             CurrentState.EnterState();
         }
 
-        void UpdateState()
+        public virtual void UpdateState()
         {
             EState nextStateKey = CurrentState.GetNextState();
 
@@ -28,7 +28,7 @@ namespace RobbieWagnerGames
             }
         }
 
-        public void TransitionState(EState stateKey)
+        public virtual void TransitionState(EState stateKey)
         {
             CurrentState.ExitState();
             CurrentState = States[stateKey];
