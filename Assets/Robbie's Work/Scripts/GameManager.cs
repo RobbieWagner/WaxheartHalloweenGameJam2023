@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator BeginPrep()
     {
-        Debug.Log("prep time");
+        //Debug.Log("prep time");
         float time = 0f;
 
         while(time < prepTime)
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator BeginWave()
     {
-        Debug.Log("combat time");
+        //Debug.Log("combat time");
         ClearEnemies();
 
         for(int i = 0; i < enemiesPerRound; i++)
@@ -173,7 +173,6 @@ public class GameManager : MonoBehaviour
         spawnedEnemy.idleTimeAfterSpawn = idleTime;
         spawnedEnemy.CurrentState = EnemyState.Idle;
         waveEnemies.Add(spawnedEnemy);
-        Debug.Log("invoke");
         OnEnemySpawned?.Invoke(spawnedEnemy);
         OnEnemyListUpdated?.Invoke(waveEnemies);
         spawnedEnemy.OnDropCurrency += AddCurrency;

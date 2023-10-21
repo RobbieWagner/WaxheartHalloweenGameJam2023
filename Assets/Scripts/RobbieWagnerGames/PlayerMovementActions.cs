@@ -217,6 +217,15 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MakePurchase"",
+                    ""type"": ""Button"",
+                    ""id"": ""94d1dcd7-8659-4ab7-98ae-9b699d7a662c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -296,6 +305,17 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                     ""action"": ""NavigateMenuHorizontally"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a483d64-416e-49a3-a115-f1c29586d16d"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MakePurchase"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -308,6 +328,7 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
         // UINav
         m_UINav = asset.FindActionMap("UINav", throwIfNotFound: true);
         m_UINav_NavigateMenuHorizontally = m_UINav.FindAction("NavigateMenuHorizontally", throwIfNotFound: true);
+        m_UINav_MakePurchase = m_UINav.FindAction("MakePurchase", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -401,11 +422,13 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
     private readonly InputActionMap m_UINav;
     private IUINavActions m_UINavActionsCallbackInterface;
     private readonly InputAction m_UINav_NavigateMenuHorizontally;
+    private readonly InputAction m_UINav_MakePurchase;
     public struct UINavActions
     {
         private @PlayerMovementActions m_Wrapper;
         public UINavActions(@PlayerMovementActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @NavigateMenuHorizontally => m_Wrapper.m_UINav_NavigateMenuHorizontally;
+        public InputAction @MakePurchase => m_Wrapper.m_UINav_MakePurchase;
         public InputActionMap Get() { return m_Wrapper.m_UINav; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -418,6 +441,9 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                 @NavigateMenuHorizontally.started -= m_Wrapper.m_UINavActionsCallbackInterface.OnNavigateMenuHorizontally;
                 @NavigateMenuHorizontally.performed -= m_Wrapper.m_UINavActionsCallbackInterface.OnNavigateMenuHorizontally;
                 @NavigateMenuHorizontally.canceled -= m_Wrapper.m_UINavActionsCallbackInterface.OnNavigateMenuHorizontally;
+                @MakePurchase.started -= m_Wrapper.m_UINavActionsCallbackInterface.OnMakePurchase;
+                @MakePurchase.performed -= m_Wrapper.m_UINavActionsCallbackInterface.OnMakePurchase;
+                @MakePurchase.canceled -= m_Wrapper.m_UINavActionsCallbackInterface.OnMakePurchase;
             }
             m_Wrapper.m_UINavActionsCallbackInterface = instance;
             if (instance != null)
@@ -425,6 +451,9 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                 @NavigateMenuHorizontally.started += instance.OnNavigateMenuHorizontally;
                 @NavigateMenuHorizontally.performed += instance.OnNavigateMenuHorizontally;
                 @NavigateMenuHorizontally.canceled += instance.OnNavigateMenuHorizontally;
+                @MakePurchase.started += instance.OnMakePurchase;
+                @MakePurchase.performed += instance.OnMakePurchase;
+                @MakePurchase.canceled += instance.OnMakePurchase;
             }
         }
     }
@@ -436,5 +465,6 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
     public interface IUINavActions
     {
         void OnNavigateMenuHorizontally(InputAction.CallbackContext context);
+        void OnMakePurchase(InputAction.CallbackContext context);
     }
 }

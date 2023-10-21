@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6968910461247588005}
   - component: {fileID: 7162654123112028696}
+  - component: {fileID: 1087420217121754004}
   m_Layer: 0
-  m_Name: FloorTile
+  m_Name: TowerSpawnSpot
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,6 +47,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 0.1, z: 4}
   m_Center: {x: 0, y: -0.04, z: 0}
+--- !u!114 &1087420217121754004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6968910461247588006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fe91aab6290c8e4898d7bd179fe5a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6968910461855193166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108,7 +121,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 231d21a145fce2b4582ce4d1879281b4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: b7ba947f3b0f9914abfaefefaa5daead, type: 2}
+      objectReference: {fileID: 2100000, guid: 1dfc94106c313b14abc0372ce1f80fc3, type: 2}
     - target: {fileID: 919132149155446097, guid: 231d21a145fce2b4582ce4d1879281b4, type: 3}
       propertyPath: m_Name
       value: Floor Tile

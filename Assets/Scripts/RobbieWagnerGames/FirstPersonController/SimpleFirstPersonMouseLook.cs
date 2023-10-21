@@ -11,10 +11,19 @@ namespace RobbieWagnerGames.FirstPerson
         [SerializeField] private Transform playerBody;
 
         private float xRotation = 0f;
+        public static SimpleFirstPersonMouseLook Instance {get; private set;}
 
-        // Start is called before the first frame update
-        private void Start()
+        private void Awake()
         {
+            if (Instance != null && Instance != this) 
+            { 
+                Destroy(gameObject); 
+            } 
+            else 
+            { 
+                Instance = this; 
+            } 
+
             Cursor.lockState = CursorLockMode.Locked;
         }
 
