@@ -5,8 +5,27 @@ namespace GameJam.Towers
     using RobbieWagnerGames.StrategyCombat.Units;
     using UnityEngine;
 
+    [System.Serializable]
+    public class TowerInfo
+    {
+        [SerializeField] public string name;
+        [SerializeField] public int attackPower;
+        [SerializeField] public float attackCooldown;
+
+        public TowerInfo(string name, int power, float cooldown)
+        {
+            attackPower = power;
+            attackCooldown = cooldown;
+        }
+    }
+
     public class GenericTowerBehaviour : MonoBehaviour
     {
+        [SerializeField] public string towerName = "Celery";
+        [SerializeField] public int attackPower = 1;
+
+        [SerializeField] public float attackCooldown = 2f;
+        
         [SerializeField]
         protected SphereCollider rangeSphere;
 
@@ -15,10 +34,6 @@ namespace GameJam.Towers
         
         [SerializeField]
         protected Transform bulletSpawnPos;
-        [SerializeField] private int attackPower = 1;
-
-        [SerializeField]
-        protected float attackCooldown = 2f;
         
         [SerializeField]
         protected float rotateSpeed = 2f;
@@ -160,6 +175,20 @@ namespace GameJam.Towers
         public void RemoveEnemyFromSight(TDEnemy enemy)
         {
             enemiesInRange.Remove(enemy);
+        }
+
+        public TowerInfo GetTowerInfo()
+        {
+            TowerInfo returnValue = new TowerInfo(towerName, attackPower, attackCooldown);
+
+            return returnValue;
+        }
+
+        public void SetTowerInfo(TowerInfo info)
+        {
+            towerName = info.name;
+            attackPower = info.attackPower;
+            attackCooldown = info.attackCooldown;
         }
     }
 }

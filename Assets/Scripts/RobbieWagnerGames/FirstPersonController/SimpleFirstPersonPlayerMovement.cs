@@ -26,9 +26,20 @@ namespace RobbieWagnerGames.FirstPerson
         private float TERMINAL_VELOCITY = -100f;
         private float currentYVelocity = 0f;
 
+        public static SimpleFirstPersonPlayerMovement Instance {get; private set;}
+
         // Start is called before the first frame update
-        void Start()
+        private void Awake()
         {
+            if (Instance != null && Instance != this) 
+            { 
+                Destroy(gameObject); 
+            } 
+            else 
+            { 
+                Instance = this; 
+            } 
+
             inputActions = new PlayerMovementActions();
             currentSpeed = initialSpeed;
         }

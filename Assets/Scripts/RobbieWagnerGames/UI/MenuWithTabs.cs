@@ -43,8 +43,12 @@ namespace RobbieWagnerGames.UI
                 }
 
                 EnableTab(activeTab);
+                OnActiveTabChanged?.Invoke(activeTab);
             }
         }
+        public delegate void OnActiveTabChangedDelegate(int tab);
+        public event OnActiveTabChangedDelegate OnActiveTabChanged;
+
 
     protected override void OnEnable()
         {

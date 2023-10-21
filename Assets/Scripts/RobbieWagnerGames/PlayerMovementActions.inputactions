@@ -195,6 +195,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MakePurchase",
+                    "type": "Button",
+                    "id": "94d1dcd7-8659-4ab7-98ae-9b699d7a662c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -274,6 +283,17 @@
                     "action": "NavigateMenuHorizontally",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "1a483d64-416e-49a3-a115-f1c29586d16d",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MakePurchase",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
