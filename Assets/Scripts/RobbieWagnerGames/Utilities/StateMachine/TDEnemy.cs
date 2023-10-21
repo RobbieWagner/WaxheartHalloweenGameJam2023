@@ -51,6 +51,7 @@ public class TDEnemy: MonoBehaviour
     void Awake()
     {
         OnStateChanged += ChangeState;
+        OnHealthChanged += CheckForDeath;
     }
 
     private void ChangeState(EnemyState state)
@@ -110,4 +111,20 @@ public class TDEnemy: MonoBehaviour
             yield return new WaitForSeconds(attackCooldown);
         }
     }
+
+    private void CheckForDeath(int newHealth)
+    {
+        if(newHealth <= 0)
+        {
+            KillEnemy();
+        }
+    }
+
+    private void KillEnemy()
+    {
+        OnKillEnemy?.Invoke(this);
+    }
+
+    public delegate void OnKillEnemyDelegate(TDEnemy enemy);
+    public event OnKillEnemyDelegate OnKillEnemy;
 }

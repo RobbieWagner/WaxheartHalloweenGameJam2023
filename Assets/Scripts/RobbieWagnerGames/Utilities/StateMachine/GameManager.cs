@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using RobbieWagnerGames.StrategyCombat.Units;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // In Setup, setup the arena
 // In Prep, player gets a break before the wave
@@ -135,7 +136,8 @@ public class GameManager : MonoBehaviour
 
         for(int i = 0; i < enemiesPerRound; i++)
         {
-            SpawnEnemy(enemyToSpawn, timeBetweenEnemies * i);
+            TDEnemy newEnemy = SpawnEnemy(enemyToSpawn, timeBetweenEnemies * i);
+            newEnemy.OnKillEnemy += DestroyEnemy;
             yield return null;
         }
 
@@ -150,16 +152,28 @@ public class GameManager : MonoBehaviour
     private IEnumerator ResolveRound()
     {
         yield return null;
-        CurrentState = GameState.Prep;
+        if(Heart.Instance.Health <= 0)
+        {
+            StartCoroutine(FinishGame(false));
+        }
+        //else if(win condition)
+        // {
+            //StartCoroutine(FinishGame(true));
+        // }
+        else
+        {
+            CurrentState = GameState.Prep;
+        }
     }
 
-    public void SpawnEnemy(TDEnemy enemy, float idleTime = 0f)
+    public TDEnemy SpawnEnemy(TDEnemy enemy, float idleTime = 0f)
     {
         TDEnemy spawnedEnemy = Instantiate(enemy).GetComponent<TDEnemy>();
         spawnedEnemy.transform.position = spawnSpot;
         spawnedEnemy.idleTimeAfterSpawn = idleTime;
         spawnedEnemy.CurrentState = EnemyState.Idle;
         waveEnemies.Add(spawnedEnemy);
+        return spawnedEnemy;
     }
 
     public void ClearEnemies()
@@ -175,6 +189,15 @@ public class GameManager : MonoBehaviour
     {
         enemy.DestroyEnemy();
         waveEnemies.Remove(enemy);
+    }
+
+    private IEnumerator FinishGame(bool win)
+    {
+        if(win) Debug.Log("win");
+        else Debug.Log("lose");
+
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("MainMenu");
     }
     
     void Update()

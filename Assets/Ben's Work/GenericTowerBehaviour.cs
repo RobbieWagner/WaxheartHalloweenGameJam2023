@@ -2,6 +2,7 @@ namespace GameJam.Towers
 {
     using System.Collections;
     using System.Collections.Generic;
+    using RobbieWagnerGames.StrategyCombat.Units;
     using UnityEngine;
 
     public class GenericTowerBehaviour : MonoBehaviour
@@ -14,6 +15,7 @@ namespace GameJam.Towers
         
         [SerializeField]
         protected Transform bulletSpawnPos;
+        [SerializeField] private int attackPower = 1;
 
         [SerializeField]
         protected float attackCooldown = 2f;
@@ -24,18 +26,20 @@ namespace GameJam.Towers
         [SerializeField]
         protected float bulletVelocity = 100f;
 
-        protected List<Transform> enemiesInRange;
+        protected List<TDEnemy> enemiesInRange;
 
         private float attackTime = 0f;
 
         private Vector3 neutralRotation;
+
+        private IEnumerator rotationCoroutine;
 
         /// <summary>
         /// 
         /// </summary>
         void Start()
         {
-            enemiesInRange = new List<Transform>();
+            enemiesInRange = new List<TDEnemy>();
             neutralRotation = this.transform.forward;
         }
 
@@ -57,12 +61,16 @@ namespace GameJam.Towers
                         Attack();
                     }
                 }
-
-                RotateTowards(targetPos);
+                else if(rotationCoroutine == null)
+                {
+                    rotationCoroutine = LookAt(targetPos);
+                    StartCoroutine(rotationCoroutine);
+                }
             }
-            else if(FacingObject(neutralRotation) == false)
+            else if(FacingObject(neutralRotation) == false && rotationCoroutine == null)
             {
-                RotateTowards(neutralRotation);
+                rotationCoroutine = LookAt(neutralRotation);
+                StartCoroutine(rotationCoroutine);
             }
         }
 
@@ -72,9 +80,12 @@ namespace GameJam.Towers
         /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.tag == "Enemy")
+            TDEnemy enemyComponent = other.gameObject.GetComponent<TDEnemy>();
+            if(enemyComponent != null)
             {
-                enemiesInRange.Add(other.gameObject.transform);
+                enemiesInRange.Add(enemyComponent);
+                enemyComponent.OnKillEnemy += RemoveEnemyFromSight;
+                Debug.Log("enemy");
             }
         }
 
@@ -84,9 +95,11 @@ namespace GameJam.Towers
         /// <param name="other"></param>
         private void OnTriggerExit(Collider other)
         {
-            if(other.gameObject.tag == "Enemy")
+            TDEnemy enemyComponent = other.gameObject.GetComponent<TDEnemy>();
+            if(enemyComponent != null)
             {
-                enemiesInRange.Remove(other.gameObject.transform);
+                RemoveEnemyFromSight(enemyComponent);
+                enemyComponent.OnKillEnemy -= RemoveEnemyFromSight;
             }
         }
 
@@ -99,6 +112,10 @@ namespace GameJam.Towers
             GameObject bullet = Instantiate(projectile, bulletSpawnPos.position, bulletSpawnPos.rotation);
             Vector3 launchForceVector = Vector3.forward * bulletVelocity;
             bullet.GetComponent<Rigidbody>().AddRelativeForce(launchForceVector, ForceMode.Impulse);
+            if(enemiesInRange.Count > 0)
+            {
+                enemiesInRange[0].Health -= attackPower;
+            }
         }
 
         /// <summary>
@@ -116,9 +133,33 @@ namespace GameJam.Towers
         /// </summary>
         protected void RotateTowards(Vector3 target)
         {
+            Quaternion lookRotation = Quaternion.LookRotation(target - transform.position);
             float step = rotateSpeed * Time.deltaTime;
             Vector3 newDirection = Vector3.RotateTowards(transform.forward, target, step, 0.0f);
             transform.rotation = Quaternion.LookRotation(newDirection);
+        }
+
+        private IEnumerator LookAt(Vector3 target)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(target - transform.position);
+
+            float time = 0;
+
+            while (time < 1)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, time);
+                time += Time.deltaTime * rotateSpeed;
+
+                yield return null;
+            }
+
+            rotationCoroutine = null;
+            StopCoroutine(LookAt(target));
+        }
+
+        public void RemoveEnemyFromSight(TDEnemy enemy)
+        {
+            enemiesInRange.Remove(enemy);
         }
     }
 }
