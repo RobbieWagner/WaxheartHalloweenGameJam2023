@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Heart: MonoBehaviour
 {
-    [SerializeField] private int maxHealth;
+    public int maxHealth = 100;
     [SerializeField] private int health;
     public int Health
     {
@@ -22,7 +22,7 @@ public class Heart: MonoBehaviour
 
     public static Heart Instance {get; private set;}
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != null && Instance != this) 
         { 
@@ -36,6 +36,6 @@ public class Heart: MonoBehaviour
 
     public void Initialize()
     {
-        health = maxHealth;
+        Health = maxHealth;
     }
 }
