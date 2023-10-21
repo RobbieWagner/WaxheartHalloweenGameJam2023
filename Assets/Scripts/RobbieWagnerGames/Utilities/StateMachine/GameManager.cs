@@ -135,7 +135,8 @@ public class GameManager : MonoBehaviour
 
         for(int i = 0; i < enemiesPerRound; i++)
         {
-            SpawnEnemy(enemyToSpawn, timeBetweenEnemies * i);
+            TDEnemy newEnemy = SpawnEnemy(enemyToSpawn, timeBetweenEnemies * i);
+            newEnemy.OnKillEnemy += DestroyEnemy;
             yield return null;
         }
 
@@ -150,16 +151,26 @@ public class GameManager : MonoBehaviour
     private IEnumerator ResolveRound()
     {
         yield return null;
-        CurrentState = GameState.Prep;
+        bool isGameOver = CheckForGameOver();
+        if(isGameOver)
+        {
+            if(Heart.Instance.Health <= 0) Debug.Log("LOSE");
+            else Debug.Log("WIN");
+        }
+        else
+        {
+            CurrentState = GameState.Prep;
+        }
     }
 
-    public void SpawnEnemy(TDEnemy enemy, float idleTime = 0f)
+    public TDEnemy SpawnEnemy(TDEnemy enemy, float idleTime = 0f)
     {
         TDEnemy spawnedEnemy = Instantiate(enemy).GetComponent<TDEnemy>();
         spawnedEnemy.transform.position = spawnSpot;
         spawnedEnemy.idleTimeAfterSpawn = idleTime;
         spawnedEnemy.CurrentState = EnemyState.Idle;
         waveEnemies.Add(spawnedEnemy);
+        return spawnedEnemy;
     }
 
     public void ClearEnemies()
@@ -177,8 +188,9 @@ public class GameManager : MonoBehaviour
         waveEnemies.Remove(enemy);
     }
     
-    void Update()
+    private bool CheckForGameOver()
     {
-
+        if(Heart.Instance.Health <= 0) return true;
+        return false;
     }
 }

@@ -27,6 +27,7 @@ public class TDEnemy: MonoBehaviour
         {
             if(value == health) return;
             health = value;
+            Debug.Log(health);
             OnHealthChanged?.Invoke(health);
         }
     }
@@ -51,6 +52,7 @@ public class TDEnemy: MonoBehaviour
     void Awake()
     {
         OnStateChanged += ChangeState;
+        OnHealthChanged += CheckForDeath;
     }
 
     private void ChangeState(EnemyState state)
@@ -79,7 +81,6 @@ public class TDEnemy: MonoBehaviour
 
     private IEnumerator StandIdle(float idleTime)
     {
-        Debug.Log("idle");
         agent.isStopped = true;
         
         yield return new WaitForSeconds(idleTime);
@@ -88,7 +89,6 @@ public class TDEnemy: MonoBehaviour
 
     private IEnumerator ChaseAfterHeart()
     {
-        Debug.Log("heart chase");
         agent.isStopped = false;
         agent.destination = Heart.Instance.transform.position;
 
@@ -103,11 +103,26 @@ public class TDEnemy: MonoBehaviour
     private IEnumerator AttackHeart()
     {
         agent.isStopped = true;
-        Debug.Log("heart attack");
         while(true)
         {
             Heart.Instance.Health -= attackPower;
             yield return new WaitForSeconds(attackCooldown);
         }
     }
+
+    private void CheckForDeath(int newHealth)
+    {
+        if(newHealth <= 0)
+        {
+            KillEnemy();
+        }
+    }
+
+    public void KillEnemy()
+    {
+        OnKillEnemy?.Invoke(this);
+    }
+
+    public delegate void OnKillEnemyDelegate(TDEnemy enemy);
+    public event OnKillEnemyDelegate OnKillEnemy;
 }
