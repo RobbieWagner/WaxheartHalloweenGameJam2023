@@ -204,6 +204,100 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""UINav"",
+            ""id"": ""b4092cc0-9891-43da-a435-e49b3f3014b3"",
+            ""actions"": [
+                {
+                    ""name"": ""NavigateMenuHorizontally"",
+                    ""type"": ""Value"",
+                    ""id"": ""e7a1e0fc-1751-402c-85e9-be70b7fc4abf"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e0333893-f9e7-4cdb-b905-d4a23cb23073"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateMenuHorizontally"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""22b3c48a-83c2-4e8c-a4c7-dd675d22afea"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateMenuHorizontally"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""cb90536d-7aaf-4913-8aeb-e72f94f6e57d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateMenuHorizontally"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""17fbc4c3-810b-4329-b386-6d5c70c00c21"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateMenuHorizontally"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""eed881ba-cc44-4b7b-b154-950678c14785"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateMenuHorizontally"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""684ff3d7-127e-4c3a-aa27-b6171cdf5d60"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateMenuHorizontally"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""28026e44-3c85-4bb7-a4a2-1b3c1f29149e"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateMenuHorizontally"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -211,6 +305,9 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
+        // UINav
+        m_UINav = asset.FindActionMap("UINav", throwIfNotFound: true);
+        m_UINav_NavigateMenuHorizontally = m_UINav.FindAction("NavigateMenuHorizontally", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -299,8 +396,45 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
         }
     }
     public MovementActions @Movement => new MovementActions(this);
+
+    // UINav
+    private readonly InputActionMap m_UINav;
+    private IUINavActions m_UINavActionsCallbackInterface;
+    private readonly InputAction m_UINav_NavigateMenuHorizontally;
+    public struct UINavActions
+    {
+        private @PlayerMovementActions m_Wrapper;
+        public UINavActions(@PlayerMovementActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @NavigateMenuHorizontally => m_Wrapper.m_UINav_NavigateMenuHorizontally;
+        public InputActionMap Get() { return m_Wrapper.m_UINav; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UINavActions set) { return set.Get(); }
+        public void SetCallbacks(IUINavActions instance)
+        {
+            if (m_Wrapper.m_UINavActionsCallbackInterface != null)
+            {
+                @NavigateMenuHorizontally.started -= m_Wrapper.m_UINavActionsCallbackInterface.OnNavigateMenuHorizontally;
+                @NavigateMenuHorizontally.performed -= m_Wrapper.m_UINavActionsCallbackInterface.OnNavigateMenuHorizontally;
+                @NavigateMenuHorizontally.canceled -= m_Wrapper.m_UINavActionsCallbackInterface.OnNavigateMenuHorizontally;
+            }
+            m_Wrapper.m_UINavActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @NavigateMenuHorizontally.started += instance.OnNavigateMenuHorizontally;
+                @NavigateMenuHorizontally.performed += instance.OnNavigateMenuHorizontally;
+                @NavigateMenuHorizontally.canceled += instance.OnNavigateMenuHorizontally;
+            }
+        }
+    }
+    public UINavActions @UINav => new UINavActions(this);
     public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IUINavActions
+    {
+        void OnNavigateMenuHorizontally(InputAction.CallbackContext context);
     }
 }

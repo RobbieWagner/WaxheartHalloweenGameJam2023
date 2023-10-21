@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float timeBetweenEnemies = 3f;
     private List<TDEnemy> waveEnemies;
     [SerializeField] private TDEnemy enemyToSpawn;
-    [SerializeField] private Vector3 spawnSpot;
+    [SerializeField] private Transform spawnSpot;
 
 
     private GameState currentState;
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     public delegate void OnCurrencyChangedDelegate(int newCurrency);
     public event OnCurrencyChangedDelegate OnCurrencyChanged;
 
-    void Start()
+    private void Awake()
     {
         if (Instance != null && Instance != this) 
         { 
@@ -169,12 +169,20 @@ public class GameManager : MonoBehaviour
     public TDEnemy SpawnEnemy(TDEnemy enemy, float idleTime = 0f)
     {
         TDEnemy spawnedEnemy = Instantiate(enemy).GetComponent<TDEnemy>();
-        spawnedEnemy.transform.position = spawnSpot;
+        spawnedEnemy.transform.position = spawnSpot.position;
         spawnedEnemy.idleTimeAfterSpawn = idleTime;
         spawnedEnemy.CurrentState = EnemyState.Idle;
         waveEnemies.Add(spawnedEnemy);
+        Debug.Log("invoke");
+        OnEnemySpawned?.Invoke(spawnedEnemy);
+        OnEnemyListUpdated?.Invoke(waveEnemies);
+        spawnedEnemy.OnDropCurrency += AddCurrency;
         return spawnedEnemy;
     }
+    public delegate void OnEnemySpawnedDelegate(TDEnemy newEnemy);
+    public event OnEnemySpawnedDelegate OnEnemySpawned;
+    public delegate void OnEnemyListUpdatedDelegate(List<TDEnemy> enemies);
+    public event OnEnemyListUpdatedDelegate OnEnemyListUpdated;
 
     public void ClearEnemies()
     {
@@ -183,12 +191,14 @@ public class GameManager : MonoBehaviour
             enemy.DestroyEnemy();
         }
         waveEnemies.Clear();
+        OnEnemyListUpdated?.Invoke(waveEnemies);
     }
 
     public void DestroyEnemy(TDEnemy enemy)
     {
         enemy.DestroyEnemy();
         waveEnemies.Remove(enemy);
+        OnEnemyListUpdated?.Invoke(waveEnemies);
     }
 
     private IEnumerator FinishGame(bool win)
@@ -203,5 +213,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    private void AddCurrency(int currencyAddition)
+    {
+        Currency += currencyAddition;
     }
 }

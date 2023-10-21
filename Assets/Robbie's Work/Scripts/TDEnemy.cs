@@ -18,6 +18,7 @@ public class TDEnemy: MonoBehaviour
     [SerializeField] private int attackPower = 1;
     [SerializeField] private float attackingDistance = 1f;
     [HideInInspector] public float idleTimeAfterSpawn;
+    [SerializeField] private int currencyDrop = 1;
 
     [SerializeField] private int health;
     public int Health
@@ -123,8 +124,11 @@ public class TDEnemy: MonoBehaviour
     private void KillEnemy()
     {
         OnKillEnemy?.Invoke(this);
+        OnDropCurrency?.Invoke(currencyDrop);
     }
 
     public delegate void OnKillEnemyDelegate(TDEnemy enemy);
     public event OnKillEnemyDelegate OnKillEnemy;
+    public delegate void OnCurrencyDropDelegate(int currency);
+    public event OnCurrencyDropDelegate OnDropCurrency;
 }

@@ -52,6 +52,7 @@ MonoBehaviour:
   attackPower: 1
   attackingDistance: 3
   idleTimeAfterSpawn: 0
+  currencyDrop: 1
   health: 5
 --- !u!195 &4591910353282366522
 NavMeshAgent:
@@ -71,7 +72,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 0.5
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -117,7 +118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c58b0df9da7fab4e9a45e5eedb7e7de, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1
+      value: 0.31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c58b0df9da7fab4e9a45e5eedb7e7de, type: 3}
       propertyPath: m_LocalPosition.z
