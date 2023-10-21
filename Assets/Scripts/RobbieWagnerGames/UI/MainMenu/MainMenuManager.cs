@@ -25,14 +25,15 @@ namespace RobbieWagnerGames.UI
         protected override void Awake()
         {
             base.Awake();
+            Cursor.lockState = CursorLockMode.None;
         }
 
         protected override void OnEnable()
         {
             startButton.onClick.AddListener(StartGame);
             settingsButton.onClick.AddListener(OpenSettings);
-            controlsButton.onClick.AddListener(OpenControls);
-            creditsButton.onClick.AddListener(OpenCredits);
+            //controlsButton.onClick.AddListener(OpenControls);
+            //creditsButton.onClick.AddListener(OpenCredits);
             quitButton.onClick.AddListener(QuitGame);
 
             base.OnEnable();
@@ -44,8 +45,8 @@ namespace RobbieWagnerGames.UI
 
             startButton.onClick.RemoveListener(StartGame);
             settingsButton.onClick.RemoveListener(OpenSettings);
-            controlsButton.onClick.RemoveListener(OpenControls);
-            creditsButton.onClick.RemoveListener(OpenCredits);
+            //controlsButton.onClick.RemoveListener(OpenControls);
+            //creditsButton.onClick.RemoveListener(OpenCredits);
             quitButton.onClick.RemoveListener(QuitGame);
         }
 
@@ -53,7 +54,7 @@ namespace RobbieWagnerGames.UI
         {
             ToggleButtonInteractibility(false);
 
-            //StartCoroutine(GameManager.Instance.LoadGame());
+            SceneManager.LoadScene(sceneToGoTo);
         }
 
         private void OpenSettings()
@@ -85,8 +86,8 @@ namespace RobbieWagnerGames.UI
 
             startButton.interactable = toggleOn;
             settingsButton.interactable = toggleOn;
-            controlsButton.interactable = toggleOn;
-            creditsButton.interactable = toggleOn;
+            //controlsButton.interactable = toggleOn;
+            //creditsButton.interactable = toggleOn;
             quitButton.interactable = toggleOn;
         }
 

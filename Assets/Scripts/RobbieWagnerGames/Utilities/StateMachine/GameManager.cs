@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using RobbieWagnerGames.StrategyCombat.Units;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // In Setup, setup the arena
 // In Prep, player gets a break before the wave
@@ -151,12 +152,14 @@ public class GameManager : MonoBehaviour
     private IEnumerator ResolveRound()
     {
         yield return null;
-        bool isGameOver = CheckForGameOver();
-        if(isGameOver)
+        if(Heart.Instance.Health <= 0)
         {
-            if(Heart.Instance.Health <= 0) Debug.Log("LOSE");
-            else Debug.Log("WIN");
+            StartCoroutine(FinishGame(false));
         }
+        //else if(win condition)
+        // {
+            //StartCoroutine(FinishGame(true));
+        // }
         else
         {
             CurrentState = GameState.Prep;
@@ -187,10 +190,18 @@ public class GameManager : MonoBehaviour
         enemy.DestroyEnemy();
         waveEnemies.Remove(enemy);
     }
-    
-    private bool CheckForGameOver()
+
+    private IEnumerator FinishGame(bool win)
     {
-        if(Heart.Instance.Health <= 0) return true;
-        return false;
+        if(win) Debug.Log("win");
+        else Debug.Log("lose");
+
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("MainMenu");
+    }
+    
+    void Update()
+    {
+
     }
 }

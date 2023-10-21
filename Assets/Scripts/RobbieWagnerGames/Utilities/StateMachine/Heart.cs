@@ -13,7 +13,7 @@ public class Heart: MonoBehaviour
         {
             if(value == health) return;
             health = value;
-            //Debug.Log("heart health: " + health);
+            Debug.Log("heart health: " + health);
             OnHealthChanged?.Invoke(health);
         }
     }
