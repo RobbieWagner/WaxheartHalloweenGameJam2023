@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using RobbieWagnerGames.StrategyCombat.Units;
 using UnityEngine;
 
 // In Setup, setup the arena
@@ -19,7 +20,6 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance {get; private set;}
-    [SerializeField] private Heart heart;
     private IEnumerator currentPhaseCoroutine;
 
     [Header("Setup")]
@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float prepTime = 5f;
 
     [Header("Wave")]
+    [SerializeField] private int enemiesPerRound = 3;
+    [SerializeField] private float timeBetweenEnemies = 3f;
+    private List<TDEnemy> waveEnemies;
+    [SerializeField] private TDEnemy enemyToSpawn;
+    [SerializeField] private Vector3 spawnSpot;
 
 
     private GameState currentState;
@@ -38,7 +43,8 @@ public class GameManager : MonoBehaviour
         {
             if(value == currentState) return;
             currentState = value;
-            OnStateChanged(currentState);
+            Debug.Log(value);
+            OnStateChanged?.Invoke(currentState);
         }
     }
     public delegate void OnStateChangedDelegate(GameState state);
@@ -53,7 +59,7 @@ public class GameManager : MonoBehaviour
         {
             if(value == currency) return;
             currency = value;
-            OnCurrencyChanged(currency);
+            OnCurrencyChanged?.Invoke(currency);
         }
     }
     public delegate void OnCurrencyChangedDelegate(int newCurrency);
@@ -75,6 +81,8 @@ public class GameManager : MonoBehaviour
         Currency = 0;
         CurrentState = GameState.Setup;
     }
+    public delegate void OnStartGameDelegate();
+    public event OnStartGameDelegate OnStartGame;
 
     private void ApplyGameState(GameState gameState)
     {
@@ -102,18 +110,40 @@ public class GameManager : MonoBehaviour
     private IEnumerator SetupGame()
     {
         yield return null;
+        waveEnemies = new List<TDEnemy>();
         CurrentState = GameState.Prep;
     }
 
     private IEnumerator BeginPrep()
     {
-        yield return new WaitForSeconds(1f);
+        Debug.Log("prep time");
+        float time = 0f;
+
+        while(time < prepTime)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+        
         CurrentState = GameState.Wave;
     }
 
     private IEnumerator BeginWave()
     {
-        yield return new WaitForSeconds(1f);
+        Debug.Log("combat time");
+        ClearEnemies();
+
+        for(int i = 0; i < enemiesPerRound; i++)
+        {
+            SpawnEnemy(enemyToSpawn, timeBetweenEnemies * i);
+            yield return null;
+        }
+
+        while(waveEnemies.Count > 0 && Heart.Instance.Health > 0)
+        {
+            yield return null;
+        }
+
         CurrentState = GameState.Resolve;
     }
 
@@ -121,6 +151,30 @@ public class GameManager : MonoBehaviour
     {
         yield return null;
         CurrentState = GameState.Prep;
+    }
+
+    public void SpawnEnemy(TDEnemy enemy, float idleTime = 0f)
+    {
+        TDEnemy spawnedEnemy = Instantiate(enemy).GetComponent<TDEnemy>();
+        spawnedEnemy.transform.position = spawnSpot;
+        spawnedEnemy.idleTimeAfterSpawn = idleTime;
+        spawnedEnemy.CurrentState = EnemyState.Idle;
+        waveEnemies.Add(spawnedEnemy);
+    }
+
+    public void ClearEnemies()
+    {
+        foreach(TDEnemy enemy in waveEnemies)
+        {
+            enemy.DestroyEnemy();
+        }
+        waveEnemies.Clear();
+    }
+
+    public void DestroyEnemy(TDEnemy enemy)
+    {
+        enemy.DestroyEnemy();
+        waveEnemies.Remove(enemy);
     }
     
     void Update()
