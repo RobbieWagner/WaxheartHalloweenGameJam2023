@@ -48,14 +48,18 @@ namespace GameJam.Towers
         private Vector3 neutralRotation;
 
         private IEnumerator rotationCoroutine;
+        [SerializeField] public TowerUpgrader upgrader;
 
         /// <summary>
         /// 
         /// </summary>
-        void Start()
+        void Awake()
         {
             enemiesInRange = new List<TDEnemy>();
             neutralRotation = this.transform.forward;
+
+            upgrader.OnChangeAttackLevel += SetAttackPower;
+            upgrader.OnChangeCooldownLevel += SetCooldownTime;
         }
 
         /// <summary>
@@ -189,6 +193,16 @@ namespace GameJam.Towers
             towerName = info.name;
             attackPower = info.attackPower;
             attackCooldown = info.attackCooldown;
+        }
+
+        public void SetCooldownTime(float time)
+        {
+            attackCooldown = time;
+        }
+
+        public void SetAttackPower(int power)
+        {
+            attackPower = power;
         }
     }
 }

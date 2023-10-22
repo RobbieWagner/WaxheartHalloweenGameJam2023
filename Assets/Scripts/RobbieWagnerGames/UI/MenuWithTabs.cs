@@ -14,7 +14,7 @@ namespace RobbieWagnerGames.UI
     {
         [SerializeField] public bool navigateMenuHorizontally = true;
 
-        [SerializeField] protected HorizontalLayoutGroup tabBar;
+        [SerializeField] protected LayoutGroup tabBar;
         protected List<TextMeshProUGUI> tabBarTextObjects; 
         [SerializeField] protected TextMeshProUGUI tabNamePrefab;
         [SerializeField] protected Color inactiveColor;
@@ -50,7 +50,7 @@ namespace RobbieWagnerGames.UI
         public event OnActiveTabChangedDelegate OnActiveTabChanged;
 
 
-    protected override void OnEnable()
+        protected override void OnEnable()
         {
             BuildMenu();
             base.OnEnable();
