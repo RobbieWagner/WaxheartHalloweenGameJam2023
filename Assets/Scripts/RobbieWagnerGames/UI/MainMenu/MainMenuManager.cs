@@ -25,6 +25,7 @@ namespace RobbieWagnerGames.UI
         protected override void Awake()
         {
             base.Awake();
+            Time.timeScale = 1;
             Cursor.lockState = CursorLockMode.None;
         }
 
@@ -54,7 +55,7 @@ namespace RobbieWagnerGames.UI
         {
             ToggleButtonInteractibility(false);
 
-            SceneManager.LoadScene(sceneToGoTo);
+            StartCoroutine(DelayStart());
         }
 
         private void OpenSettings()
@@ -96,6 +97,12 @@ namespace RobbieWagnerGames.UI
             yield return StartCoroutine(base.SwapCanvases(active, next));
 
             StopCoroutine(SwapCanvases(active, next));
+        }
+        
+        protected IEnumerator DelayStart()
+        {
+            yield return new WaitForSeconds(.5f);
+            SceneManager.LoadScene(sceneToGoTo);
         }
     }
 }

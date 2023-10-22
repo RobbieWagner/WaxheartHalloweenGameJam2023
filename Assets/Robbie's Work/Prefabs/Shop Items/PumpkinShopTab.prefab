@@ -386,7 +386,7 @@ MonoBehaviour:
       attackPower: 2
       attackCooldown: 1
     tower: {fileID: 8316366563903202566, guid: ca3f0499e3806c149bd618aaf70bb115, type: 3}
-    cost: 10
+    cost: 20
 --- !u!114 &2368387781464594986
 MonoBehaviour:
   m_ObjectHideFlags: 0

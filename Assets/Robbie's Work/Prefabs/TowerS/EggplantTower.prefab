@@ -61,14 +61,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 8316366563903202566}
   cooldownUpgradeValues:
-  - 1
+  - 3
   - 2.85
   - 2.7
   - 2.6
   - 2.4
-  cooldownUpgradeCosts: 000000000f0000001e0000003700000046000000
+  cooldownUpgradeCosts: 000000000a000000190000003700000046000000
   attackPowerUpgradeValues: 0400000006000000080000000a0000000c0000000f000000
-  attackUpgradeCosts: 000000002d0000005a000000a0000000fa00000072010000
+  attackUpgradeCosts: 000000001e0000003c0000006400000096000000e1000000
 --- !u!1 &8316366562797643663
 GameObject:
   m_ObjectHideFlags: 0

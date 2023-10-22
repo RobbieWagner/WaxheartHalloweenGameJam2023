@@ -4,15 +4,33 @@ using UnityEngine;
 
 public class GameSounds : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    int heartHealth;
+
+    [SerializeField] private AudioSource heartDamageSound;
+
+    public static GameSounds Instance {get; private set;}
+
+    void Awake()
     {
-        
+        if (Instance != null && Instance != this) 
+        { 
+            Destroy(gameObject); 
+        } 
+        else 
+        { 
+            Instance = this; 
+        } 
+
+        heartHealth = Heart.Instance.Health;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void PlayHeartDamageSound(int newHealth)
     {
-        
+        if(newHealth < heartHealth)
+        {
+            heartDamageSound.Play();
+        }
+
+        heartHealth = Heart.Instance.Health;
     }
 }

@@ -44,7 +44,7 @@ public class WaveGenerator : MonoBehaviour
             wavesToNewLane = wavesBetweenLanes;
             if(openLanes < 4) openLanes++;
         }
-        int difficultyLimit = wave * 2;
+        int difficultyLimit = wave * 3;
         int difficultyRank = 0;
 
         Wave returnWave = new Wave();

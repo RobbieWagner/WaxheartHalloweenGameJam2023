@@ -4,6 +4,7 @@ using RobbieWagnerGames.StrategyCombat.Units;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // In Setup, setup the arena
 // In Prep, player gets a break before the wave
@@ -57,6 +58,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Transform> spawnSpots;
     private List<Vector3> spawnPositions;
     [SerializeField] private int wavesCount = 100;
+
+    [SerializeField] private Canvas gameOver;
+    [SerializeField] private Canvas winScreen;
 
     private int wave = 0;
     public int Wave
@@ -224,6 +228,8 @@ public class GameManager : MonoBehaviour
         else
         {
             enemiesPerRound++;
+            if(Wave % 5 == 0) Heart.Instance.Health += 20;
+            else Heart.Instance.Health += 3;
             CurrentState = GameState.Prep;
         }
     }
@@ -266,10 +272,10 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FinishGame(bool win)
     {
-        if(win) Debug.Log("win");
-        else Debug.Log("lose");
+        if(win) winScreen.enabled = true;
+        else gameOver.enabled = true;
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSecondsRealtime(1.5f);
         SceneManager.LoadScene("MainMenu");
     }
     

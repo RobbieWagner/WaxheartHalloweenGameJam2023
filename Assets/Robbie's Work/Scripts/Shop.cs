@@ -28,6 +28,9 @@ public class Shop : MonoBehaviour
 
     private PlayerInputActions inputActions;
 
+    [SerializeField] private AudioSource purchaseSound;
+    [SerializeField] private AudioSource navSound;
+
     public static Shop Instance {get; private set;}
 
     protected void Awake()
@@ -131,5 +134,21 @@ public class Shop : MonoBehaviour
     private void HideMenu(MenuWithTabs menu)
     {
         menu.gameObject.SetActive(false);
+    }
+
+    private void OnMakePurchase(InputValue value)
+    {
+        if(tower != null || spawnSpot != null)
+        {
+            purchaseSound.Play();
+        }
+    }
+
+    private void OnNavigateMenuHorizontally(InputValue value)
+    {
+        if(tower != null || spawnSpot != null)
+        {
+            navSound.Play();
+        }
     }
 }

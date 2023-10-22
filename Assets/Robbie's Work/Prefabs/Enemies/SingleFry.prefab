@@ -713,7 +713,7 @@ MonoBehaviour:
   currencyDrop: 4
   bulletPrefab: {fileID: 5473298592876851223, guid: 2e6e19208e8396a489d17788c03c0344, type: 3}
   bulletSpawnPos: {fileID: 5604538173154292226}
-  pVelocity: 0
+  pVelocity: 75
   health: 4
 --- !u!195 &4591910353282366522
 NavMeshAgent:
