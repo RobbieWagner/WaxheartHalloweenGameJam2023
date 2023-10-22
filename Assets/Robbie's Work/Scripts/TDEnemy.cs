@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameJam.Towers;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,6 +20,10 @@ public class TDEnemy: MonoBehaviour
     [SerializeField] private float attackingDistance = 1f;
     [HideInInspector] public float idleTimeAfterSpawn;
     [SerializeField] private int currencyDrop = 1;
+
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform bulletSpawnPos;
+    [SerializeField] private float pVelocity;
 
     [SerializeField] private int health;
     public int Health
@@ -53,6 +58,8 @@ public class TDEnemy: MonoBehaviour
     {
         OnStateChanged += ChangeState;
         OnHealthChanged += CheckForDeath;
+        agent.enabled = false;
+        StartCoroutine(DelayNavMeshEnable(true));
     }
 
     private void ChangeState(EnemyState state)
@@ -81,16 +88,13 @@ public class TDEnemy: MonoBehaviour
 
     private IEnumerator StandIdle(float idleTime)
     {
-        Debug.Log("idle");
-        agent.isStopped = true;
-        
         yield return new WaitForSeconds(idleTime);
         CurrentState = EnemyState.Moving;
     }
 
     private IEnumerator ChaseAfterHeart()
     {
-        Debug.Log("heart chase");
+        //Debug.Log("heart chase");
         agent.isStopped = false;
         agent.destination = Heart.Instance.transform.position;
 
@@ -105,10 +109,16 @@ public class TDEnemy: MonoBehaviour
     private IEnumerator AttackHeart()
     {
         agent.isStopped = true;
-        Debug.Log("heart attack");
+        //Debug.Log("heart attack");
         while(true)
         {
             Heart.Instance.Health -= attackPower;
+            if(bulletPrefab != null)
+            {
+                GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, bulletSpawnPos.rotation);
+                Vector3 launchForceVector = Vector3.forward * pVelocity;
+                bullet.GetComponent<Rigidbody>().AddRelativeForce(launchForceVector, ForceMode.Impulse);
+            }
             yield return new WaitForSeconds(attackCooldown);
         }
     }
@@ -126,9 +136,16 @@ public class TDEnemy: MonoBehaviour
         OnKillEnemy?.Invoke(this);
         OnDropCurrency?.Invoke(currencyDrop);
     }
-
     public delegate void OnKillEnemyDelegate(TDEnemy enemy);
     public event OnKillEnemyDelegate OnKillEnemy;
     public delegate void OnCurrencyDropDelegate(int currency);
     public event OnCurrencyDropDelegate OnDropCurrency;
+
+    private IEnumerator DelayNavMeshEnable(bool isStopped)
+    {
+        yield return new WaitForSeconds(.025f);
+        agent.enabled = true;
+        agent.isStopped = isStopped;
+        StopCoroutine(DelayNavMeshEnable(isStopped));
+    }
 }

@@ -44,7 +44,6 @@ public class SpeedUpgradeTab : MenuTab
     public override void BuildTab()
     {
         base.BuildTab();
-        Debug.Log("build tab");
         if(currentUpgrader != null)
         {
             if(currentUpgrader.CurrentCooldownUpgrade + 1 < currentUpgrader.cooldownUpgradeCosts.Count)

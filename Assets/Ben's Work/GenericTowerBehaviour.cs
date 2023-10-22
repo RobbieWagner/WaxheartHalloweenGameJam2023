@@ -105,7 +105,6 @@ namespace GameJam.Towers
             {
                 enemiesInRange.Add(enemyComponent);
                 enemyComponent.OnKillEnemy += RemoveEnemyFromSight;
-                Debug.Log("enemy");
             }
         }
 
@@ -205,5 +204,14 @@ namespace GameJam.Towers
         {
             attackPower = power;
         }
+
+        public void DestroyTower()
+        {
+            OnDestroyTower?.Invoke(this);
+            Destroy(this.gameObject);
+        }
+
+        public delegate void OnDestroyTowerDelegate(GenericTowerBehaviour destroyedTower);
+        public event OnDestroyTowerDelegate OnDestroyTower;
     }
 }

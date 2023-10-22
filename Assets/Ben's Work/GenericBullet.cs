@@ -5,6 +5,7 @@ namespace GameJam.Towers
     public class GenericBullet : MonoBehaviour
     {
         public float lifeTime = 5f;
+        [SerializeField] private bool ignoreCollisions = false;
 
         /// <summary>
         /// 
@@ -24,7 +25,7 @@ namespace GameJam.Towers
         /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
-            if(other.tag == "Enemy")
+            if(other.tag == "Enemy" && !ignoreCollisions)
             {
                 Destroy(gameObject);
             }

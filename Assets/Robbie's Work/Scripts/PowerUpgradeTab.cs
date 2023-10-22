@@ -44,7 +44,7 @@ public class PowerUpgradeTab : MenuTab
     public override void BuildTab()
     {
         base.BuildTab();
-        Debug.Log("build tab");
+        //Debug.Log("build tab");
         if(currentUpgrader != null)
         {
             if(currentUpgrader.CurrentAttackUpgrade + 1 < currentUpgrader.attackUpgradeCosts.Count)

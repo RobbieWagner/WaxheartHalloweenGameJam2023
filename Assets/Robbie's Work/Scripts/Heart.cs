@@ -5,6 +5,8 @@ using UnityEngine;
 public class Heart: MonoBehaviour
 {
     public int maxHealth = 100;
+    [SerializeField] private int healAmount = 1;
+    [SerializeField] private float timeToHeal = 4;
     [SerializeField] private int health;
     public int Health
     {
@@ -13,7 +15,8 @@ public class Heart: MonoBehaviour
         {
             if(value == health) return;
             health = value;
-            Debug.Log("heart health: " + health);
+            if(health > maxHealth) health = maxHealth;
+            //Debug.Log("heart health: " + health);
             OnHealthChanged?.Invoke(health);
         }
     }
@@ -32,10 +35,21 @@ public class Heart: MonoBehaviour
         { 
             Instance = this; 
         } 
+
+        StartCoroutine(LoopHeal());
     }
 
     public void Initialize()
     {
         Health = maxHealth;
+    }
+
+    private IEnumerator LoopHeal()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(timeToHeal);
+            Health += healAmount;
+        }
     }
 }

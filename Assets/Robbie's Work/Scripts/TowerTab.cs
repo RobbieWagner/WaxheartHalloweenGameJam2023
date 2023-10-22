@@ -52,6 +52,7 @@ public class TowerTab : MenuTab
         newTower.transform.position = Shop.Instance.spawnSpot.spawnPos.position;
         newTower.SetTowerInfo(shopItem.towerInfo);
         Shop.Instance.spawnSpot.isEmpty = false;
+        Shop.Instance.spawnSpot.Tower = newTower;
         GameManager.Instance.Currency -= shopItem.cost;
     }
 

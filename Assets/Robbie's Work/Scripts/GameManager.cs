@@ -2,12 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using RobbieWagnerGames.StrategyCombat.Units;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 // In Setup, setup the arena
 // In Prep, player gets a break before the wave
 // In wave, enemies spawn and try to kill the heart
 // In Resolve, the game checks for victory
+
+[System.Serializable]
+public class EnemyWaveInfo
+{
+    public int enemyCount;
+    public TDEnemy enemyType;
+    public int spawnSpot;
+}
+
+[System.Serializable]
+public class Wave
+{
+    public List<EnemyWaveInfo> enemies;
+
+    public Wave()
+    {
+        enemies = new List<EnemyWaveInfo>();
+    }
+}
 
 public enum GameState
 {
@@ -31,9 +51,12 @@ public class GameManager : MonoBehaviour
     [Header("Wave")]
     [SerializeField] private int enemiesPerRound = 3;
     [SerializeField] private float timeBetweenEnemies = 3f;
+    [SerializeField] private List<Wave> waves;
     private List<TDEnemy> waveEnemies;
     [SerializeField] private TDEnemy enemyToSpawn;
-    [SerializeField] private Transform spawnSpot;
+    [SerializeField] private List<Transform> spawnSpots;
+    private List<Vector3> spawnPositions;
+    [SerializeField] private int wavesCount = 100;
 
     private int wave = 0;
     public int Wave
@@ -57,7 +80,7 @@ public class GameManager : MonoBehaviour
         {
             if(value == currentState) return;
             currentState = value;
-            Debug.Log(value);
+            //Debug.Log(value);
             OnStateChanged?.Invoke(currentState);
         }
     }
@@ -94,12 +117,15 @@ public class GameManager : MonoBehaviour
 
         Currency = startingCurrency;
         CurrentState = GameState.Setup;
+
+        CalculateSpawnPositions();
     }
     public delegate void OnStartGameDelegate();
     public event OnStartGameDelegate OnStartGame;
 
     private void ApplyGameState(GameState gameState)
     {
+        //Debug.Log("change state");
         if(currentPhaseCoroutine != null) StopCoroutine(currentPhaseCoroutine);
 
         switch(gameState)
@@ -151,11 +177,29 @@ public class GameManager : MonoBehaviour
         Wave += 1;
         ClearEnemies();
 
-        for(int i = 0; i < enemiesPerRound; i++)
+        List<TDEnemy> thisWaveEnemies = new List<TDEnemy>();
+        List<int> spawnSpawnIndeces = new List<int>();
+
+        Wave thisWave; 
+
+        if(Wave <= waves.Count) thisWave = waves[Wave-1];
+        else thisWave = WaveGenerator.Instance.GenerateWave(Wave);
+
+        foreach(EnemyWaveInfo info in thisWave.enemies)
         {
-            TDEnemy newEnemy = SpawnEnemy(enemyToSpawn, timeBetweenEnemies * i);
+            for(int i = 0; i < info.enemyCount; i++)
+            {
+                thisWaveEnemies.Add(info.enemyType);
+                spawnSpawnIndeces.Add(info.spawnSpot % spawnSpots.Count);
+            }
+        }
+
+        for(int i = 0; i < thisWaveEnemies.Count; i++)
+        {
+            TDEnemy newEnemy = SpawnEnemy(thisWaveEnemies[i], timeBetweenEnemies * i + .1f, spawnSpawnIndeces[i]);
             newEnemy.OnKillEnemy += DestroyEnemy;
             yield return null;
+            //Debug.Log(newEnemy.transform.position);
         }
 
         while(waveEnemies.Count > 0 && Heart.Instance.Health > 0)
@@ -173,10 +217,10 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(FinishGame(false));
         }
-        //else if(win condition)
-        // {
-            //StartCoroutine(FinishGame(true));
-        // }
+        else if(Wave == wavesCount)
+        {
+            StartCoroutine(FinishGame(true));
+        }
         else
         {
             enemiesPerRound++;
@@ -184,10 +228,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public TDEnemy SpawnEnemy(TDEnemy enemy, float idleTime = 0f)
+    public TDEnemy SpawnEnemy(TDEnemy enemy, float idleTime = 0f, int spawnSpotIndex = 0)
     {
         TDEnemy spawnedEnemy = Instantiate(enemy).GetComponent<TDEnemy>();
-        spawnedEnemy.transform.position = spawnSpot.position;
+
+        spawnedEnemy.transform.position = spawnSpots[spawnSpotIndex].position;
+        //Debug.Log(spawnedEnemy.transform.position);
         spawnedEnemy.idleTimeAfterSpawn = idleTime;
         spawnedEnemy.CurrentState = EnemyState.Idle;
         waveEnemies.Add(spawnedEnemy);
@@ -223,7 +269,7 @@ public class GameManager : MonoBehaviour
         if(win) Debug.Log("win");
         else Debug.Log("lose");
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene("MainMenu");
     }
     
@@ -235,5 +281,10 @@ public class GameManager : MonoBehaviour
     private void AddCurrency(int currencyAddition)
     {
         Currency += currencyAddition;
+    }
+
+    private void CalculateSpawnPositions()
+    {
+       
     }
 }

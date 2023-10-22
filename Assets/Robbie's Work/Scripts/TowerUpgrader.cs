@@ -39,4 +39,10 @@ public class TowerUpgrader : MonoBehaviour
     }
     public delegate void OnChangeAttackLevelDelegate(int level);
     public event OnChangeAttackLevelDelegate OnChangeAttackLevel;
+
+     
+    public int GetSellPrice()
+    {
+        return attackUpgradeCosts[currentAttackUpgrade]/2 + cooldownUpgradeCosts[currentCooldownUpgrade]/2;
+    }
 }

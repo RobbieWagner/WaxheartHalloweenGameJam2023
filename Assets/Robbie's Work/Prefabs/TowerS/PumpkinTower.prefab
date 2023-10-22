@@ -153,7 +153,7 @@ MonoBehaviour:
   attackPower: 1
   attackCooldown: 2
   rangeSphere: {fileID: 8316366563903202564}
-  projectile: {fileID: 5473298592876851223, guid: d8043953ca0f90b45a65557fa76ef653, type: 3}
+  projectile: {fileID: 5473298592876851223, guid: f57519c929953f440a42efbc6bea5bc4, type: 3}
   bulletSpawnPos: {fileID: 8316366562797643660}
   rotateSpeed: 2
   bulletVelocity: 80

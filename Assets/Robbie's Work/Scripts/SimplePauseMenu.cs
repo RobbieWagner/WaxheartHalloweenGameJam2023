@@ -33,7 +33,6 @@ public class SimplePauseMenu : MonoBehaviour
 
     private void OnPause(InputValue value)
     {
-        Debug.Log("pause");
         if(paused)
         {
             canvas.enabled = false;
