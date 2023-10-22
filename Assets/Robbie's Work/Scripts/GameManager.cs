@@ -35,6 +35,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TDEnemy enemyToSpawn;
     [SerializeField] private Transform spawnSpot;
 
+    private int wave = 0;
+    public int Wave
+    {
+        get {return wave;}
+        set
+        {
+            if(value == wave) return;
+            wave = value;
+            OnWaveChange?.Invoke(wave);
+        }
+    }
+    public delegate void OnWaveChangedDelegate(int wave);
+    public event OnWaveChangedDelegate OnWaveChange;
 
     private GameState currentState;
     public GameState CurrentState
@@ -117,6 +130,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator BeginPrep()
     {
+        int currentWave = wave;
+        Wave = 0;
         //Debug.Log("prep time");
         float time = 0f;
 
@@ -126,12 +141,14 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         
+        Wave = currentWave;
         CurrentState = GameState.Wave;
     }
 
     private IEnumerator BeginWave()
     {
         //Debug.Log("combat time");
+        Wave += 1;
         ClearEnemies();
 
         for(int i = 0; i < enemiesPerRound; i++)

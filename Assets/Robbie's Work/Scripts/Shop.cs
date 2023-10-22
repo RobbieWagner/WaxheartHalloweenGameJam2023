@@ -13,6 +13,7 @@ using RobbieWagnerGames;
 public class Shop : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI enemiesText;
+    [SerializeField] private TextMeshProUGUI waveText;
     private bool isActiveTabTowers = false;
 
     [SerializeField] private MenuWithTabs upgradeMenu;
@@ -41,6 +42,7 @@ public class Shop : MonoBehaviour
         } 
 
         GameManager.Instance.OnEnemyListUpdated += UpdateEnemyCount;
+        GameManager.Instance.OnWaveChange += UpdateWaveText;
 
         inputActions = new PlayerInputActions();
 
@@ -50,7 +52,22 @@ public class Shop : MonoBehaviour
 
     private void UpdateEnemyCount(List<TDEnemy> enemies)
     {
+        if(enemies.Count == 0) enemiesText.enabled = false;
+        else enemiesText.enabled = true;
         enemiesText.text = "Enemies Left: " + enemies.Count;
+    }
+
+    private void UpdateWaveText(int wave)
+    {
+        if(wave == 0)
+        {
+            waveText.enabled = false;
+        }
+        else
+        {
+            waveText.enabled = true;
+        }
+        waveText.text = "Wave: " + wave;
     }
 
     private void Update()
