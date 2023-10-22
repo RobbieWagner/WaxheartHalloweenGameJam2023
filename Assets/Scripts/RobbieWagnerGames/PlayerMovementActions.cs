@@ -226,6 +226,15 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4762c2e-e02e-4da6-a9a3-931caeca6470"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -316,6 +325,17 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                     ""action"": ""MakePurchase"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""037aa904-1455-479c-8c63-f707de5bd55b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -329,6 +349,7 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
         m_UINav = asset.FindActionMap("UINav", throwIfNotFound: true);
         m_UINav_NavigateMenuHorizontally = m_UINav.FindAction("NavigateMenuHorizontally", throwIfNotFound: true);
         m_UINav_MakePurchase = m_UINav.FindAction("MakePurchase", throwIfNotFound: true);
+        m_UINav_Pause = m_UINav.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -423,12 +444,14 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
     private IUINavActions m_UINavActionsCallbackInterface;
     private readonly InputAction m_UINav_NavigateMenuHorizontally;
     private readonly InputAction m_UINav_MakePurchase;
+    private readonly InputAction m_UINav_Pause;
     public struct UINavActions
     {
         private @PlayerMovementActions m_Wrapper;
         public UINavActions(@PlayerMovementActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @NavigateMenuHorizontally => m_Wrapper.m_UINav_NavigateMenuHorizontally;
         public InputAction @MakePurchase => m_Wrapper.m_UINav_MakePurchase;
+        public InputAction @Pause => m_Wrapper.m_UINav_Pause;
         public InputActionMap Get() { return m_Wrapper.m_UINav; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -444,6 +467,9 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                 @MakePurchase.started -= m_Wrapper.m_UINavActionsCallbackInterface.OnMakePurchase;
                 @MakePurchase.performed -= m_Wrapper.m_UINavActionsCallbackInterface.OnMakePurchase;
                 @MakePurchase.canceled -= m_Wrapper.m_UINavActionsCallbackInterface.OnMakePurchase;
+                @Pause.started -= m_Wrapper.m_UINavActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_UINavActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_UINavActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_UINavActionsCallbackInterface = instance;
             if (instance != null)
@@ -454,6 +480,9 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                 @MakePurchase.started += instance.OnMakePurchase;
                 @MakePurchase.performed += instance.OnMakePurchase;
                 @MakePurchase.canceled += instance.OnMakePurchase;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -466,5 +495,6 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
     {
         void OnNavigateMenuHorizontally(InputAction.CallbackContext context);
         void OnMakePurchase(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

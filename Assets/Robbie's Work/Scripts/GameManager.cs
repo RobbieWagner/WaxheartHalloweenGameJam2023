@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour
         // }
         else
         {
+            enemiesPerRound++;
             CurrentState = GameState.Prep;
         }
     }

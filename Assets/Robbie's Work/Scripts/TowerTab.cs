@@ -59,6 +59,7 @@ public class TowerTab : MenuTab
     {
         TowerInfo info = shopItem.towerInfo;
         nameText.text = info.name;
+        costText.text = "Cost: " + shopItem.cost;
         powerText.text = "Power: " + info.attackPower.ToString();
         cooldownText.text = "Cooldown: " + RoundToTenths(info.attackCooldown);
     }

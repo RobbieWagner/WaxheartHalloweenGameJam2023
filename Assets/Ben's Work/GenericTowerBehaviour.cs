@@ -67,6 +67,8 @@ namespace GameJam.Towers
         /// </summary>
         void Update()
         {
+            attackTime -= Time.deltaTime;
+
             if(enemiesInRange != null && enemiesInRange.Count > 0)
             {
                 Vector3 targetPos = new Vector3(enemiesInRange[0].transform.position.x,
@@ -74,7 +76,6 @@ namespace GameJam.Towers
                                                 enemiesInRange[0].transform.position.z);
                 if(FacingObject(targetPos))
                 {
-                    attackTime -= Time.deltaTime;
                     if(attackTime <= 0)
                     {
                         Attack();
