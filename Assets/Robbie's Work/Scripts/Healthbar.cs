@@ -20,16 +20,9 @@ public class Healthbar : MonoBehaviour
         UpdateSlider(Heart.Instance.Health);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void UpdateSlider(int health)
     {
-        int cholesterol = Heart.Instance.maxHealth - health;
-        healthSlider.value = cholesterol;
-        healthText.text = "Cholesterol: " + cholesterol; 
+        healthSlider.value = health;
+        healthText.text = "Calories: " + healthSlider.value; 
     }
 }

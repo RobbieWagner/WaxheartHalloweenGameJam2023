@@ -51,8 +51,8 @@ public class GameManager : MonoBehaviour
     public delegate void OnStateChangedDelegate(GameState state);
     public event OnStateChangedDelegate OnStateChanged;
 
-    
-    [SerializeField] private int currency;
+    [SerializeField] private int startingCurrency = 0;
+    private int currency;
     public int Currency
     {
         get { return currency; }
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
 
         OnStateChanged += ApplyGameState;
 
-        Currency = 0;
+        Currency = startingCurrency;
         CurrentState = GameState.Setup;
     }
     public delegate void OnStartGameDelegate();

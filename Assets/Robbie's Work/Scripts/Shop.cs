@@ -22,6 +22,9 @@ public class Shop : MonoBehaviour
     [HideInInspector] public TowerUpgrader tower;
     [HideInInspector] public TowerSpawnSpot spawnSpot;
 
+    private bool showingUpgradeMenu;
+    private bool showingTowerMenu;
+
     private PlayerInputActions inputActions;
 
     public static Shop Instance {get; private set;}
@@ -40,6 +43,9 @@ public class Shop : MonoBehaviour
         GameManager.Instance.OnEnemyListUpdated += UpdateEnemyCount;
 
         inputActions = new PlayerInputActions();
+
+        showingTowerMenu = false;
+        showingUpgradeMenu = false;
     }
 
     private void UpdateEnemyCount(List<TDEnemy> enemies)
@@ -75,24 +81,28 @@ public class Shop : MonoBehaviour
             }
         }
 
-        if(tower != null)
+        if(tower != null && !showingUpgradeMenu)
         {
             DisplayMenu(upgradeMenu);
             HideMenu(towerMenu);
-            //DisplayUpgradeSelection(upgradeSelection);
+            showingUpgradeMenu = true;
+            showingTowerMenu = false;
         }
 
-        else if(spawnSpot != null)
+        else if(spawnSpot != null && !showingTowerMenu)
         {
             DisplayMenu(towerMenu);
             HideMenu(upgradeMenu);
-            //DisplayTowerSelection(towerSelection);
+            showingTowerMenu = true;
+            showingUpgradeMenu = false;
         }
 
-        else
+        else if(spawnSpot == null && tower == null)
         {
             HideMenu(upgradeMenu);
             HideMenu(towerMenu);
+            showingTowerMenu = false;
+            showingUpgradeMenu = false;
         }
     }
 
@@ -105,13 +115,4 @@ public class Shop : MonoBehaviour
     {
         menu.gameObject.SetActive(false);
     }
-
-    // private void DisplayUpgradeSelection(int upgrade)
-    // {
-    //     TowerInfo info = tower.tower.GetTowerInfo();
-
-    //     upgradeTowerNameText.text = info.name;
-    // }
-
-
 }
