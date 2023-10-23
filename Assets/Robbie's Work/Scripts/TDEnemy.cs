@@ -24,6 +24,7 @@ public class TDEnemy: MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawnPos;
     [SerializeField] private float pVelocity;
+    [SerializeField] AudioSource sound;
 
     [SerializeField] private int health;
     public int Health
@@ -113,6 +114,7 @@ public class TDEnemy: MonoBehaviour
         while(true)
         {
             Heart.Instance.Health -= attackPower;
+            if(sound != null) sound.Play();
             if(bulletPrefab != null)
             {
                 GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, bulletSpawnPos.rotation);

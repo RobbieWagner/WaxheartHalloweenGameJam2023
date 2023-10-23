@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4591910353282366522}
   - component: {fileID: 4591910353282366523}
   m_Layer: 0
-  m_Name: FryEnemy
+  m_Name: BigFries
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,12 +28,12 @@ Transform:
   m_GameObject: {fileID: 4591910353282366535}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4939664359808544906}
   - {fileID: 898599828954260511}
-  - {fileID: 4170290173800685754}
+  - {fileID: 4265851630696023964}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -58,8 +58,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5473298592876851223, guid: 2e6e19208e8396a489d17788c03c0344, type: 3}
   bulletSpawnPos: {fileID: 898599828954260511}
   pVelocity: 75
-  sound: {fileID: 900326957853015753}
-  health: 12
+  sound: {fileID: 1123520512058656153}
+  health: 125
 --- !u!195 &4591910353282366522
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -70,7 +70,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.35
-  m_Speed: 13
+  m_Speed: 10
   m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -126,7 +126,7 @@ Transform:
   m_Father: {fileID: 4591910353282366533}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &9210439871982063321
+--- !u!1 &9174695984547216379
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,8 +134,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4170290173800685754}
-  - component: {fileID: 900326957853015753}
+  - component: {fileID: 4265851630696023964}
+  - component: {fileID: 1123520512058656153}
   m_Layer: 0
   m_Name: AttackSound
   m_TagString: Untagged
@@ -143,28 +143,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4170290173800685754
+--- !u!4 &4265851630696023964
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9210439871982063321}
+  m_GameObject: {fileID: 9174695984547216379}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4591910353282366533}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &900326957853015753
+--- !u!82 &1123520512058656153
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9210439871982063321}
+  m_GameObject: {fileID: 9174695984547216379}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}

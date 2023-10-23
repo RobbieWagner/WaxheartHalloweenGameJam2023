@@ -230,6 +230,8 @@ public class GameManager : MonoBehaviour
             enemiesPerRound++;
             if(Wave % 5 == 0) Heart.Instance.Health += 20;
             else Heart.Instance.Health += 3;
+            Currency += Wave * 3;
+            if(timeBetweenEnemies > 1) timeBetweenEnemies -= .15f;
             CurrentState = GameState.Prep;
         }
     }

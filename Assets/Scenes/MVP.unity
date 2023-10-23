@@ -3019,6 +3019,30 @@ MonoBehaviour:
       spawnSpot: 3
     difficultyClass: 15
     waveModulus: 5
+  - info:
+      enemyCount: 1
+      enemyType: {fileID: 4591910353282366532, guid: 0804cdc5b9456094392446c87448070f, type: 3}
+      spawnSpot: 3
+    difficultyClass: 20
+    waveModulus: 1
+  - info:
+      enemyCount: 1
+      enemyType: {fileID: 4591910353282366532, guid: 0804cdc5b9456094392446c87448070f, type: 3}
+      spawnSpot: 0
+    difficultyClass: 20
+    waveModulus: 1
+  - info:
+      enemyCount: 1
+      enemyType: {fileID: 4591910353282366532, guid: 0804cdc5b9456094392446c87448070f, type: 3}
+      spawnSpot: 1
+    difficultyClass: 20
+    waveModulus: 1
+  - info:
+      enemyCount: 1
+      enemyType: {fileID: 4591910353282366532, guid: 0804cdc5b9456094392446c87448070f, type: 3}
+      spawnSpot: 2
+    difficultyClass: 20
+    waveModulus: 1
   wavesBetweenLanes: 4
 --- !u!1 &759056686
 GameObject:
@@ -5718,7 +5742,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 75b68d0dcd0732a4c88db8144dbb2954, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.15
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 75b68d0dcd0732a4c88db8144dbb2954, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16044,7 +16068,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769761932427114272, guid: b6a9fa4df15da694a84c1dd05f631e58, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15
+      value: -14.2
       objectReference: {fileID: 0}
     - target: {fileID: 5769761932427114272, guid: b6a9fa4df15da694a84c1dd05f631e58, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16052,7 +16076,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769761932427114272, guid: b6a9fa4df15da694a84c1dd05f631e58, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16
+      value: -15.2
       objectReference: {fileID: 0}
     - target: {fileID: 5769761932427114272, guid: b6a9fa4df15da694a84c1dd05f631e58, type: 3}
       propertyPath: m_LocalRotation.w
@@ -16064,7 +16088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769761932427114272, guid: b6a9fa4df15da694a84c1dd05f631e58, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.38268343
+      value: 0.38268343
       objectReference: {fileID: 0}
     - target: {fileID: 5769761932427114272, guid: b6a9fa4df15da694a84c1dd05f631e58, type: 3}
       propertyPath: m_LocalRotation.z
@@ -16076,7 +16100,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5769761932427114272, guid: b6a9fa4df15da694a84c1dd05f631e58, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -45
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 5769761932427114272, guid: b6a9fa4df15da694a84c1dd05f631e58, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

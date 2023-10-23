@@ -22,6 +22,7 @@ public class Healthbar : MonoBehaviour
 
     private void UpdateSlider(int health)
     {
+        healthSlider.maxValue = Heart.Instance.maxHealth;
         healthSlider.value = health;
         healthText.text = "Calories: " + healthSlider.value; 
     }
