@@ -44,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ece048417a7362d49ad12d546322f217, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 0.6
   Loop: 0
   Mute: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
   attackPower: 5
   attackingDistance: 3.5
   idleTimeAfterSpawn: 0
-  currencyDrop: 10
+  currencyDrop: 20
   bulletPrefab: {fileID: 5473298592876851223, guid: a8ced430257baf44c98cc8dbcb27fe6e, type: 3}
   bulletSpawnPos: {fileID: 8222183256880869677}
   pVelocity: 75

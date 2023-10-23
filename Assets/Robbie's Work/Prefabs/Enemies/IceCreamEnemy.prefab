@@ -213,7 +213,7 @@ MonoBehaviour:
   attackPower: 1
   attackingDistance: 27
   idleTimeAfterSpawn: 0
-  currencyDrop: 4
+  currencyDrop: 10
   bulletPrefab: {fileID: 5473298592876851223, guid: ae1a1ed6291560548a13f142604c2fd1, type: 3}
   bulletSpawnPos: {fileID: 3836662744646651391}
   pVelocity: 75

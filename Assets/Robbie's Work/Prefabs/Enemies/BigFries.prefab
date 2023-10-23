@@ -51,10 +51,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 4591910353282366522}
   attackCooldown: 2
-  attackPower: 1
+  attackPower: 5
   attackingDistance: 5
   idleTimeAfterSpawn: 0
-  currencyDrop: 4
+  currencyDrop: 30
   bulletPrefab: {fileID: 5473298592876851223, guid: 2e6e19208e8396a489d17788c03c0344, type: 3}
   bulletSpawnPos: {fileID: 898599828954260511}
   pVelocity: 75

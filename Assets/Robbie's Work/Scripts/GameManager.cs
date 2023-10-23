@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         {
             if(value == currentState) return;
             currentState = value;
-            //Debug.Log(value);
+            Debug.Log(value);
             OnStateChanged?.Invoke(currentState);
         }
     }
@@ -165,11 +165,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log("prep time");
         float time = 0f;
 
-        while(time < prepTime)
-        {
-            time += Time.deltaTime;
-            yield return null;
-        }
+        yield return new WaitForSeconds(prepTime);
         
         Wave = currentWave;
         CurrentState = GameState.Wave;
@@ -228,9 +224,9 @@ public class GameManager : MonoBehaviour
         else
         {
             enemiesPerRound++;
-            if(Wave % 5 == 0) Heart.Instance.Health += 20;
+            if(Wave % 5 == 0) Heart.Instance.Health = Heart.Instance.maxHealth;
             else Heart.Instance.Health += 3;
-            Currency += Wave * 3;
+            Currency += (int) (Wave * 2.5f + 1.5);
             if(timeBetweenEnemies > 1) timeBetweenEnemies -= .15f;
             CurrentState = GameState.Prep;
         }

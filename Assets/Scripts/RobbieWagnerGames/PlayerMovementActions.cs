@@ -318,7 +318,7 @@ public partial class @PlayerMovementActions : IInputActionCollection2, IDisposab
                 {
                     ""name"": """",
                     ""id"": ""1a483d64-416e-49a3-a115-f1c29586d16d"",
-                    ""path"": ""<Keyboard>/p"",
+                    ""path"": ""<Keyboard>/t"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

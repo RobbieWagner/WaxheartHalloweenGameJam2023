@@ -68,7 +68,7 @@ MonoBehaviour:
   - 0.2
   cooldownUpgradeCosts: 0000000014000000230000004b00000087000000
   attackPowerUpgradeValues: 02000000030000000400000006000000080000000a000000
-  attackUpgradeCosts: 000000002d00000064000000a0000000e10000005e010000
+  attackUpgradeCosts: 000000002d00000064000000a0000000e100000090010000
 --- !u!1 &8316366562797643663
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 15
   m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!54 &1218989613643948983
 Rigidbody:
